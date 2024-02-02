@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 
@@ -16,7 +15,7 @@ data = r.json()
 #print(data['Time Series (5min)']['2024-01-31 19:55:00'].keys())
 #print(data['Time Series (5min)']['2024-01-31 19:50:00'].keys())
 
-df = pd.DataFrame(data['Time Series (5min)'], index = [0])
+df = pd.DataFrame(data['Time Series (5min)'])
 print(df)
 
 
