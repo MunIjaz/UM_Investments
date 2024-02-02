@@ -25,8 +25,12 @@ class User:
         self.ID = ID
         self.opening_balance = opening_balance
         self.balance = balance
-        self.portfolio = portfolio
+        self.portfolio = []
     
+    def add_stock_to_portfolio(self,stock,quantity):
+        stock.quantity += quantity
+        self.portfolio.append((stock,quantity))
+
     def buy(self):
         stock_to_buy = input("Please enter the name of the stock you would like to purchase ")
         quanity_of_stock = input("Please enter the number of stocks you would like to purchase ")
@@ -38,6 +42,8 @@ class User:
 
 u1 = User("Utsav Paliwal",1,10000,0,[{}])
 
-print(u1.name,u1.opening_balance)
+#u1.add_stock_to_portfolio(***insert stock class objects here*****)
+
+print(u1.name,u1.opening_balance,u1.portfolio)
 u1.buy()
 u1.sell()
