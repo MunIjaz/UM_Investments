@@ -54,8 +54,7 @@ class Stock:
         link2 = f'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol={tick}&apikey=4H4XGZE8HAY85MW6'
         r2 = requests.get(link2)
         data2 = r2.json()
-        return data2['Monthly Time Series']['2024-02-01']['4. close'] # price at the end of december
-
+        return data2['Monthly Time Series']['2024-02-01']['4. close'] # price at the statr of February
 
 
 
