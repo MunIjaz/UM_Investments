@@ -29,10 +29,15 @@ class User:
     
     def buy(self):
         stock_to_buy = input("Please enter the name of the stock you would like to purchase ")
-        Quanity_of_stock = input("Please enter the number of stocks you would like to purchase ")
+        quanity_of_stock = input("Please enter the number of stocks you would like to purchase ")
         
+
+    def sell(self):
+        stock_to_sell = input("Please enter the name of the stock you would like to sell ")
+        Quanity_of_stock = input("Please enter the number of stocks you would like to sell ")
 
 u1 = User("Utsav Paliwal",1,10000,0,[{}])
 
 print(u1.name,u1.opening_balance)
 u1.buy()
+u1.sell()
