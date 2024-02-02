@@ -1,3 +1,7 @@
+PREMIUM API KEY: 4H4XGZE8HAY85MW6
+only allowed 74 requests per minute so can slow us down if all groups query at the same time
+
+
 1) Setup Git repository -> Muneeb
 2) Clone Git repository -> Utsav
 3) Go through API docuemntation -> Both
@@ -7,6 +11,20 @@
 	- User (Name, ID, portfolio, opening balance, balance) + Portfolio can be an array of objects of class Stock) | UT
 	- Stocks (Name, Ticker, Price) | MI
 	- Order (Type, trigger price, stock name, expiry date, limit price) -> BUY | MI
-	- 
+
+
+
+Order -> buy
+input: stock name/ticker and quantity
+output: total cost, name
+
+User class:
+add order.stock_name and order.quantity to user.portfolio
+check order.total_cost in user.balance
+
+order.cost =
+
+
+You bough 2 shares of apple at 150. Your portfolio consists of x, y,z. Your balance is abc
 
 
