@@ -20,14 +20,13 @@ print(df)
 
 
 class User:
+   
     def __init__(self,name,ID,opening_balance,balance,portfolio):
         self.name = name 
         self.ID = ID
         self.opening_balance = opening_balance
         self.balance = balance
         self.portfolio = []
-    
-
 
     def buy(self):
         stock_to_buy = input("Please enter the name of the stock you would like to purchase ")
