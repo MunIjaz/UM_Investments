@@ -1,0 +1,12 @@
+1) Setup Git repository -> Muneeb
+2) Clone Git repository -> Utsav
+3) Go through API docuemntation -> Both
+4) Setup API calls -> Both
+5
+5 Identify Classes:
+	- User (Name, ID, portfolio, opening balance, balance) + Portfolio can be an array of objects of class Stock) | UT
+	- Stocks (Name, Ticker, Price) | MI
+	- Order (Type, trigger price, stock name, expiry date, limit price) -> BUY | MI
+	- 
+
+
