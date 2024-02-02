@@ -5,7 +5,7 @@ import numpy as np
 
 import requests
 
-url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=ONZOU16MALIX7UNO'
+url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AAPL&interval=5min&apikey=ONZOU16MALIX7UNO'
 r = requests.get(url)
 data = r.json()
 
@@ -19,4 +19,20 @@ df = pd.DataFrame(data['Time Series (5min)'])
 print(df)
 
 
+class User:
+    def __init__(self,name,ID,opening_balance,balance,portfolio):
+        self.name = name 
+        self.ID = ID
+        self.opening_balance = opening_balance
+        self.balance = balance
+        self.portfolio = portfolio
+    
+    def buy(self):
+        stock_to_buy = input("Please enter the name of the stock you would like to purchase ")
+        Quanity_of_stock = input("Please enter the number of stocks you would like to purchase ")
+        
 
+u1 = User("Utsav Paliwal",1,10000,0,[{}])
+
+print(u1.name,u1.opening_balance)
+u1.buy()
