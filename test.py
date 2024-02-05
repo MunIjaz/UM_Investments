@@ -155,3 +155,22 @@ print(u1.name,u1.opening_balance,u1.portfolio)
 u1.buy()
 u1.sell()
 
+
+
+class Order:
+    def __init__(self, stock, quantity):
+        self.stock = Stock(stock)
+        self.quantity = quantity
+
+
+    def buy_order(self):
+        price = self.stock.buy_price
+        quantity = self.quantity
+        return price*quantity
+
+    def sell_order(self):
+        price = self.stock.sell_price
+        quantity = self.quantity
+        return price*quantity
+
+
