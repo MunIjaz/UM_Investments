@@ -157,32 +157,39 @@ class Stock:
 #
 # total_cost = buy_order(share,2)
 # print(total_cost)
- 
+
 def buy_stock_for_user(user):
     share = input("Enter ticker of stock you want to buy: ")
     stock1 = Stock(share)
+    print(f'{stock1.name} is currently trading at a buy price')
     quant = input(f'How many shares of {stock1.name} do you want to buy? ')
     quant = int(quant)
     total_cost = buy_order(stock1, quant)
 
     if total_cost < user.balance:
         user.add_stock_to_portfolio(stock1, quant, total_cost)
-        print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio is {user.portfolio}')
+
+        print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio consists of:')
+        for s in user.portfolio:
+            print(f"Stock name: {s['name']} | Quantity: {s['quantity']}")
     else:
-        print(f'You do not have enough money to buy {quant} shares of {stock1.name}')  
+        print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
+
 
 existing_users = []
 users = []
 while True:
     current_user = input("Enter your first name.")
     if current_user in existing_users:
-        print(f'Welcome back {current_user}')
-        buy_stock_for_user(current_user)
+        for x in users:
+            if x.name == current_user:
+                print(f'Welcome back {current_user}')
+                buy_stock_for_user(x)
     else:
         existing_users.append(current_user)
         u1 = User(current_user,len(users))
         users.append(u1)
         print(f'Welcome {current_user}')
-        buy_stock_for_user(current_user)
+        buy_stock_for_user(u1)
 
 
