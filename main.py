@@ -36,9 +36,11 @@ class User:
         self.portfolio.append(d)
         self.balance = self.balance - cost
 
-    def sell(self):
-        stock_to_sell = input("Please enter the name of the stock you would like to sell ")
-        Quanity_of_stock = input("Please enter the number of stocks you would like to sell ")
+    # def sell(self):
+    #     stock_to_sell = input("Please enter the name of the stock you would like to sell ")
+    #     Quanity_of_stock = input("Please enter the number of stocks you would like to sell ")
+
+
 class Stock:
     def __init__(self,ticker):
         self.ticker = ticker
