@@ -66,7 +66,7 @@ class Stock:
         link2 = f'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol={tick}&apikey=4H4XGZE8HAY85MW6'
         r2 = requests.get(link2)
         data2 = r2.json()
-        return data2['Monthly Time Series']['2024-02-01']['4. close'] # price at the start of February
+        return data2['Monthly Time Series']['2024-02-02']['4. close'] # price at the start of February
 
 # class Order:
 #     def __init__(self, stock, quantity):
@@ -170,7 +170,7 @@ def buy_stock_for_user(user):
         print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio is {user.portfolio}')
     else:
         print(f'You do not have enough money to buy {quant} shares of {stock1.name}')  
-                 
+
 existing_users = []
 users = []
 while True:
