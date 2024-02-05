@@ -36,6 +36,9 @@ class User:
         self.portfolio.append(d)
         self.balance = self.balance - cost
 
+    # def portfolio(self):
+    #     return self.portfolio
+
     # def sell(self):
     #     stock_to_sell = input("Please enter the name of the stock you would like to sell ")
     #     Quanity_of_stock = input("Please enter the number of stocks you would like to sell ")
@@ -67,7 +70,7 @@ class Stock:
         link2 = f'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol={tick}&apikey=4H4XGZE8HAY85MW6'
         r2 = requests.get(link2)
         data2 = r2.json()
-        return data2['Monthly Time Series']['2024-02-01']['4. close'] # price at the statr of February
+        return data2['Monthly Time Series']['2024-02-01']['4. close'] # price at the start of February
 
 # class Order:
 #     def __init__(self, stock, quantity):
@@ -86,18 +89,18 @@ class Stock:
 #         return price*quantity
 
 
-u1 = User("Utsav Paliwal",1)
-share = Stock('AAPL')
-quantity = 2
-
-total_cost = buy_order(share,quantity)
-if total_cost < u1.balance:
-    u1.add_stock_to_portfolio(share,2,total_cost)
-else:
-    print("Invalid")
-
-print(u1.portfolio)
-print(u1.balance)
+# u1 = User("Utsav Paliwal",1)
+# share = Stock('AAPL')
+# quantity = 2
+#
+# total_cost = buy_order(share,quantity)
+# if total_cost < u1.balance:
+#     u1.add_stock_to_portfolio(share,2,total_cost)
+# else:
+#     print("Invalid")
+#
+# print(u1.portfolio)
+# print(u1.balance)
 
 #
 # #u1.add_stock_to_portfolio()
@@ -105,7 +108,41 @@ print(u1.balance)
 # #print(u1.name,u1.opening_balance,u1.portfolio)
 # #u1.buy()
 # #u1.sell()
-# while 1:
+existing_users = []
+users = []
+while True:
+    current_user = input("Enter your first name.")
+    if current_user in existing_users:
+        print(f'Welcome back {current_user}')
+        for x in users:
+            if x.name == current_user:
+                share = input("Enter ticker of stock you want to buy.")
+                stock1 = Stock(share)
+                quant = input(f'How many shares of {stock1.name} do you want to buy?')
+                quant = int(quant)
+                total_cost = buy_order(stock1, quant)
+                if total_cost < x.balance:
+                    x.add_stock_to_portfolio(stock1, quant, total_cost)
+                    print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {x.balance} and your portfolio is {x.portfolio}')
+                else:
+                    print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
+    else:
+        existing_users.append(current_user)
+        u1 = User(current_user,len(users))
+        users.append(u1)
+        share = input("Enter ticker of stock you want to buy.")
+        stock1 = Stock(share)
+        quant = input(f'How many shares of {stock1.name} do you want to buy?')
+        quant = int(quant)
+        total_cost = buy_order(stock1, quant)
+        if total_cost < u1.balance:
+            u1.add_stock_to_portfolio(stock1,quant, total_cost)
+            print(
+                f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {u1.balance} and your portfolio is {u1.portfolio}')
+        else:
+            print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
+
+
 #     user = input("Enter 1 if you know the ticker of the stock. Otherwise, enter 2 to search for a stock by keyword.")
 #     if user == '1':
 #         try:
@@ -118,8 +155,8 @@ print(u1.balance)
 #     elif user == '2':
 #         print("Stock not found!")
 
-share = Stock('AAPL')
-print(share.name)
-
-total_cost = buy_order(share,2)
-print(total_cost)
+# share = Stock('AAPL')
+# print(share.name)
+#
+# total_cost = buy_order(share,2)
+# print(total_cost)
