@@ -172,6 +172,16 @@ def buy_stock_for_user(user):
         print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio consists of:')
         for s in user.portfolio:
             print(f"Stock name: {s['name']} | Quantity: {s['quantity']}")
+        stock_names = [s['name'] for s in user.portfolio]
+        quantities = [s['quantity'] for s in user.portfolio]
+        
+        sns.set(style="whitegrid")
+        plt.figure(figsize=(10, 6))
+        bar_plot = sns.barplot(x=stock_names, y=quantities)
+        bar_plot.set(xlabel='Stock Name', ylabel='Quantity')
+        plt.title('Portfolio Composition')
+        plt.show()
+
     else:
         print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
 
