@@ -3,18 +3,18 @@
 import pandas as pd
 import numpy as np
 import requests
+import matplotlib.pyplot as plt
 
 
 # Functions for orders
-
 def buy_order(stock, quantity):
-    price = stock.buy_price
-    return price * quantity
+    price = float(stock.buy_price)
+    return price * int(quantity)
 
 
 def sell_order(stock, quantity):
-    price = stock.sell_price
-    return price * quantity
+    price = float(stock.sell_price)
+    return price * int(quantity)
 
 # --- Classes ---
 
@@ -25,19 +25,45 @@ class User:
         self.ID = ID
         self.balance = 10000
         self.portfolio = []
-
+        self.port_hist = []
 
     def add_stock_to_portfolio(self,stock,quantity,cost):
-        d = {'name': stock.name, 'quantity': quantity}
-        self.portfolio.append(d)
-        self.balance = self.balance - cost
+        self.port_hist.append(self.balance)
+        stock_exist = 0
+        for a in self.portfolio:
+            if a['name'] == stock.name:
+                stock_exist = 1
 
-    # def portfolio(self):
-    #     return self.portfolio
+        if stock_exist == 1:
+            for b in self.portfolio:
+                if b['name'] == stock.name:
+                    b['quantity'] = b['quantity'] + quantity
+                    self.balance = self.balance - cost
+        else:
+            d = {'name': stock.name, 'quantity': quantity}
+            self.portfolio.append(d)
+            self.balance = self.balance - cost
 
-    # def sell(self):
-    #     stock_to_sell = input("Please enter the name of the stock you would like to sell ")
-    #     Quanity_of_stock = input("Please enter the number of stocks you would like to sell ")
+    def remove_stock_from_portfolio(self,stock,quantity,cost):
+        self.port_hist.append(self.balance)
+        stock_empty = 0
+        for c in self.portfolio:
+            if c['name'] == stock.name:
+                if quantity > c['quantity']:
+                    print("You are trying to sell more shares than you own. Please try again.")
+                    return 1
+                else:
+                    c['quantity'] = c['quantity'] - quantity
+                    self.balance = self.balance + cost
+                    if c['quantity'] == 0:
+                        self.portfolio.remove(c)
+
+    def plot_portfolio(self):
+        ax = [d for d in range(len(self.port_hist))]
+        plt.plot(ax,self.port_hist)
+        plt.show()
+        plt.close()
+
 
 
 class Stock:
@@ -68,113 +94,55 @@ class Stock:
         data2 = r2.json()
         return data2['Monthly Time Series']['2024-02-02']['4. close'] # price at the start of February
 
-# class Order:
-#     def __init__(self, stock, quantity):
-#         self.stock = Stock(stock)
-#         self.quantity = quantity
-#
-#
-#     def buy_order(self):
-#         price = self.stock.buy_price
-#         quantity = self.quantity
-#         return price*quantity
-#
-#     def sell_order(self):
-#         price = self.stock.sell_price
-#         quantity = self.quantity
-#         return price*quantity
-
-
-# u1 = User("Utsav Paliwal",1)
-# share = Stock('AAPL')
-# quantity = 2
-#
-# total_cost = buy_order(share,quantity)
-# if total_cost < u1.balance:
-#     u1.add_stock_to_portfolio(share,2,total_cost)
-# else:
-#     print("Invalid")
-#
-# print(u1.portfolio)
-# print(u1.balance)
-
-#
-# #u1.add_stock_to_portfolio()
-#
-# #print(u1.name,u1.opening_balance,u1.portfolio)
-# #u1.buy()
-# #u1.sell()
-#UN-COMMENT THIS MAIN CODETILL LINE 142
-# existing_users = []
-# users = []
-# while True:
-#     current_user = input("Enter your first name.")
-#     if current_user in existing_users:
-#         print(f'Welcome back {current_user}')
-#         for x in users:
-#             if x.name == current_user:
-#                 share = input("Enter ticker of stock you want to buy.")
-#                 stock1 = Stock(share)
-#                 quant = input(f'How many shares of {stock1.name} do you want to buy?')
-#                 quant = int(quant)
-#                 total_cost = buy_order(stock1, quant)
-#                 if total_cost < x.balance:
-#                     x.add_stock_to_portfolio(stock1, quant, total_cost)
-#                     print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {x.balance} and your portfolio is {x.portfolio}')
-#                 else:
-#                     print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
-#     else:
-#         existing_users.append(current_user)
-#         u1 = User(current_user,len(users))
-#         users.append(u1)
-#         share = input("Enter ticker of stock you want to buy.")
-#         stock1 = Stock(share)
-#         quant = input(f'How many shares of {stock1.name} do you want to buy?')
-#         quant = int(quant)
-#         total_cost = buy_order(stock1, quant)
-#         if total_cost < u1.balance:
-#             u1.add_stock_to_portfolio(stock1,quant, total_cost)
-#             print(
-#                 f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {u1.balance} and your portfolio is {u1.portfolio}')
-#         else:
-#             print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
-
-
-#     user = input("Enter 1 if you know the ticker of the stock. Otherwise, enter 2 to search for a stock by keyword.")
-#     if user == '1':
-#         try:
-#             target_stock = input("Please enter your stock ticker.")
-#             stock1 = Stock(target_stock)
-#             print(f'You chose stock {stock1.name} with ticker, {stock1.ticker}. The buying price of {stock1.ticker} is {stock1.buy_price}')
-#         except IndexError:
-#             print("No such stock found. Exiting Program. Please try again")
-#             break
-#     elif user == '2':
-#         print("Stock not found!")
-
-# share = Stock('AAPL')
-# print(share.name)
-#
-# total_cost = buy_order(share,2)
-# print(total_cost)
 
 def buy_stock_for_user(user):
     share = input("Enter ticker of stock you want to buy: ")
     stock1 = Stock(share)
-    print(f'{stock1.name} is currently trading at a buy price')
-    quant = input(f'How many shares of {stock1.name} do you want to buy? ')
-    quant = int(quant)
-    total_cost = buy_order(stock1, quant)
+    intent = input(f'{stock1.name} is currently trading at a buy price of {stock1.buy_price}. Are you sure you want to buy it? Y/N')
+    if intent.upper() == 'Y':
+        quant = input(f'How many shares of {stock1.name} do you want to buy? ')
+        quant = int(quant)
+        total_cost = buy_order(stock1, quant)
 
-    if total_cost < user.balance:
-        user.add_stock_to_portfolio(stock1, quant, total_cost)
+        if total_cost < user.balance:
+            user.add_stock_to_portfolio(stock1, quant, total_cost)
 
-        print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio consists of:')
-        for s in user.portfolio:
-            print(f"Stock name: {s['name']} | Quantity: {s['quantity']}")
+            print(f'You have successfully bought {quant} shares of {stock1.name}. Your remaining balance is {user.balance} and your portfolio consists of:')
+            for s in user.portfolio:
+                print(f"Stock name: {s['name']} | Quantity: {s['quantity']}")
+        else:
+            print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
+    elif intent.upper() == 'N':
+        print("Try another stock.")
     else:
-        print(f'You do not have enough money to buy {quant} shares of {stock1.name}')
+        print("Invalid input, Program aborted. Start again")
 
+
+def sell_stock_for_user(user):
+    over_limit = 0
+    share = input("Enter ticker of stock you want to sell: ")
+    stock1 = Stock(share)
+    intent = input(f'{stock1.name} is currently trading at a sell price of {stock1.sell_price}. Are you sure you want to sell it? Y/N')
+    if intent.upper() == 'Y':
+        quant = input(f'How many shares of {stock1.name} do you want to sell? ')
+        quant = int(quant)
+        total_cost = sell_order(stock1, quant)
+        user.remove_stock_from_portfolio(stock1, quant, total_cost)
+        if over_limit != 1:
+            print(f'You have successfully sold {quant} shares of {stock1.name}. Your new balance is {user.balance} and your portfolio consists of:')
+            for s in user.portfolio:
+                print(f"Stock name: {s['name']} | Quantity: {s['quantity']}")
+    elif intent.upper() == 'N':
+        print("Try another stock.")
+    else:
+        print("Invalid input, Program aborted. Start again")
+
+
+print("* * * * * * WELCOME TO UM INVESTMENTS! * * * * * *")
+print("* * * * * * * * INSTRUCTIONS! * * * * * * * *")
+print("This program uses your first name to identify you. Enter your name and choose what you want to do!")
+print("Once you are done with one operation, you can either leave and let the next user use the program "
+      "or enter your name again to continue using the program")
 
 existing_users = []
 users = []
@@ -184,12 +152,28 @@ while True:
         for x in users:
             if x.name == current_user:
                 print(f'Welcome back {current_user}')
-                buy_stock_for_user(x)
+                buy_sell = input("Would you like to buy stock, sell stock or plot your portfolio over time? buy/sell/plot")
+                if buy_sell.lower() == 'buy':
+                    buy_stock_for_user(x)
+                elif buy_sell.lower() == 'sell':
+                    sell_stock_for_user(x)
+                elif buy_sell.lower() == 'plot':
+                    x.plot_portfolio()
+                else:
+                    print("Invalid input, Program aborted. Start again")
     else:
         existing_users.append(current_user)
         u1 = User(current_user,len(users))
         users.append(u1)
         print(f'Welcome {current_user}')
-        buy_stock_for_user(u1)
+        buy_sell = input("Would you like to buy stock, sell stock or plot your portfolio over time? buy/sell/plot")
+        if buy_sell.lower() == 'buy':
+            buy_stock_for_user(u1)
+        elif buy_sell.lower() == 'sell':
+            sell_stock_for_user(u1)
+        elif buy_sell.lower() == 'plot':
+            u1.plot_portfolio()
+        else:
+            print("Invalid input, Program aborted. Start again")
 
 
