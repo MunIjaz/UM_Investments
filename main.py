@@ -174,6 +174,6 @@ while True:
         elif buy_sell.lower() == 'plot':
             u1.plot_portfolio()
         else:
-            print("Invalid input, Program aborted. Start again")
+            print("Invalid input! Program aborted. Start again")
 
 
